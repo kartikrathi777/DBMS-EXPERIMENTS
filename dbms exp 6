@@ -1,0 +1,86 @@
+# EXPERIMENT – 06  
+## SQL Queries using Functions 
+
+---
+
+### Aim
+To study and execute SQL queries using CASE function, date functions, string functions and arithmetic operations on the EMPLOYEE table.
+
+
+
+---
+
+### Table Used
+EMPLOYEE
+
+---
+
+### Queries
+
+**1. Display empno, ename and department name using CASE**
+```sql
+SELECT empno, ename,
+CASE deptno
+ WHEN 10 THEN 'RESEARCH'
+ WHEN 20 THEN 'ACCOUNTING'
+ WHEN 30 THEN 'SALES'
+ WHEN 40 THEN 'OPERATIONS'
+ ELSE 'UNKNOWN'
+END AS dept_name
+FROM employee;
+
+##2.display age in days
+SELECT DATEDIFF(CURDATE(), '2006-10-12') AS age_in_days;
+
+##3display age in months
+SELECT TIMESTAMPDIFF(MONTH, '2004-10-12', CURDATE()) AS age_in_months;
+
+###4. Display current date in the format
+
+SELECT DATE_FORMAT(CURDATE(), '%D %M %W %Y') AS formatted_date;
+##5. Display output for each employee
+SELECT CONCAT(ename, ' earns ', sal, ' salary') AS output
+FROM employee;
+##6. Display joining details of SCOTT
+SELECT CONCAT(
+       ename,
+       ' has joined the company on ',
+       DATE_FORMAT(hiredate, '%W %D %M %Y')
+) AS joining_details
+FROM employee
+WHERE ename = 'SCOTT';
+##7. Find the nearest Saturday after the current date
+SELECT DATE_ADD(
+       CURDATE(),
+       INTERVAL (6 - DAYOFWEEK(CURDATE())) DAY
+) AS next_saturday;
+##8. Display current time
+SELECT CURTIME() AS curr_time;
+##9. Display the date three months before the current date
+SELECT DATE_SUB(CURDATE(), INTERVAL 3 MONTH) AS date_before_3_months;
+##10. Display employees who joined in December
+SELECT *
+FROM employee
+WHERE MONTH(hiredate) = 12;
+##11. Display employees whose first two characters of hiredate
+SELECT *
+FROM employee
+WHERE LEFT(hiredate, 2) = RIGHT(sal, 2);
+##12. Display employees whose 10% of salary equals the year of joining
+SELECT *
+FROM employee
+WHERE (sal * 0.10) = YEAR(hiredate);
+##13. Display employees who joined before the 15th of the month
+SELECT *
+FROM employee
+WHERE DAY(hiredate) < 15;
+##14. Display employees who joined before the 15th of the month (alternate)
+SELECT *
+FROM employee
+WHERE DAYOFMONTH(hiredate) < 15;
+##15. Display employees whose joining day is equal to deptno
+SELECT *
+FROM employee
+WHERE DAY(hiredate) = deptno;
+
+
